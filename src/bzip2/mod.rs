@@ -32,10 +32,10 @@ mod tests {
     #[cfg(not(feature = "std"))]
     use alloc::vec::Vec;
     use log::debug;
-    use simple_logger;
+    use simple_logger::SimpleLogger;
 
     fn setup() {
-        let _ = simple_logger::init();
+        let _ = SimpleLogger::new().init();
     }
 
     #[test]

@@ -9,33 +9,27 @@
 use crate::core::borrow::Borrow;
 use crate::core::fmt;
 use crate::core::hash::{BuildHasher, Hasher};
-use lazy_static::lazy_static;
+use conquer_once::spin::Lazy;
 
 #[cfg(any(feature = "gzip", test))]
-lazy_static! {
-    pub(crate) static ref IEEE_REVERSE_TABLE: [u32; 256] =
-        { make_table_reverse(0xEDB8_8320) };
-    pub(crate) static ref IEEE_REVERSE: DigestBuilder<&'static [u32; 256]> = {
-        DigestBuilder {
-            table: &*IEEE_REVERSE_TABLE,
-            initial: 0xFFFF_FFFF,
-            poly_repr: PolynomialRepresentation::Reverse,
-        }
-    };
-}
+pub(crate) static IEEE_REVERSE_TABLE: Lazy<[u32; 256]> =
+    Lazy::new(|| make_table_reverse(0xEDB8_8320));
+pub(crate) static IEEE_REVERSE: Lazy<DigestBuilder<&'static [u32; 256]>> =
+    Lazy::new(|| DigestBuilder {
+        table: &*IEEE_REVERSE_TABLE,
+        initial: 0xFFFF_FFFF,
+        poly_repr: PolynomialRepresentation::Reverse,
+    });
 
 #[cfg(any(feature = "bzip2"))]
-lazy_static! {
-    pub(crate) static ref IEEE_NORMAL_TABLE: [u32; 256] =
-        { make_table_normal(0x04C1_1DB7) };
-    pub(crate) static ref IEEE_NORMAL: DigestBuilder<&'static [u32; 256]> = {
-        DigestBuilder {
-            table: &*IEEE_NORMAL_TABLE,
-            initial: 0xFFFF_FFFF,
-            poly_repr: PolynomialRepresentation::Normal,
-        }
-    };
-}
+pub(crate) static IEEE_NORMAL_TABLE: Lazy<[u32; 256]> =
+    Lazy::new(|| make_table_normal(0x04C1_1DB7));
+pub(crate) static IEEE_NORMAL: Lazy<DigestBuilder<&'static [u32; 256]>> =
+    Lazy::new(|| DigestBuilder {
+        table: &*IEEE_NORMAL_TABLE,
+        initial: 0xFFFF_FFFF,
+        poly_repr: PolynomialRepresentation::Normal,
+    });
 
 #[cfg(any(feature = "gzip", test))]
 fn make_table_reverse(poly: u32) -> [u32; 256] {

@@ -15,13 +15,13 @@ use crate::deflate::encoder::Inflater;
 use crate::error::CompressionError;
 use crate::traits::encoder::Encoder;
 
-struct ScanIterator<I: Iterator, BI: BorrowMut<I>, F: FnMut(&I::Item) -> ()> {
+struct ScanIterator<I: Iterator, BI: BorrowMut<I>, F: FnMut(&I::Item)> {
     phantom: PhantomData<I>,
     inner: BI,
     closure: F,
 }
 
-impl<I: Iterator, BI: BorrowMut<I>, F: FnMut(&I::Item) -> ()> Iterator
+impl<I: Iterator, BI: BorrowMut<I>, F: FnMut(&I::Item)> Iterator
     for ScanIterator<I, BI, F>
 {
     type Item = I::Item;
@@ -34,7 +34,7 @@ impl<I: Iterator, BI: BorrowMut<I>, F: FnMut(&I::Item) -> ()> Iterator
     }
 }
 
-impl<I: Iterator, BI: BorrowMut<I>, F: FnMut(&I::Item) -> ()>
+impl<I: Iterator, BI: BorrowMut<I>, F: FnMut(&I::Item)>
     ScanIterator<I, BI, F>
 {
     pub(crate) fn new(inner: BI, closure: F) -> Self {

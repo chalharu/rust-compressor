@@ -192,7 +192,7 @@ mod tests {
             buf.push(d);
         }
 
-        for (d, i) in buf.clone().into_iter().enumerate().take(16) {
+        for (d, i) in buf.into_iter().enumerate().take(16) {
             assert_eq!(i, 20 - d);
         }
     }
@@ -214,7 +214,7 @@ mod tests {
 
         buf.append(&(1..17).collect::<Vec<_>>());
 
-        for (d, i) in buf.clone().into_iter().enumerate().take(16) {
+        for (d, i) in buf.into_iter().enumerate().take(16) {
             assert_eq!(i, 16 - d);
         }
     }

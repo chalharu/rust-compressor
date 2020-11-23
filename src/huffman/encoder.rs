@@ -43,7 +43,7 @@ where
         &self,
         data: U,
     ) -> Result<SmallBitVec<T>, String> {
-        if let Some(idx) = cast::<_, usize>(data.clone()) {
+        if let Some(idx) = cast::<_, usize>(data) {
             if idx < self.bit_vec_tab.len() {
                 if let Some(ref bv) = self.bit_vec_tab[idx] {
                     return Ok(bv.clone());

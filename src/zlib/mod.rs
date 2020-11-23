@@ -99,7 +99,7 @@ mod tests {
 
     #[test]
     fn test_multiblocks4() {
-        test_rand_with_len(0x10_000);
+        test_rand_with_len(0x0001_0000);
     }
 
     #[test]

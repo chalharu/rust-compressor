@@ -216,7 +216,7 @@ impl Encoder for Inflater {
                 }
                 Some(Ok(InflateBitVec::Byte(s))) => return Some(Ok(s)),
                 Some(Ok(InflateBitVec::Flush)) => {
-                    self.writer.flush::<u16>().unwrap_or_else(|| (0, 0))
+                    self.writer.flush::<u16>().unwrap_or((0, 0))
                 }
                 None => {
                     if self.bit_finished {
@@ -415,8 +415,7 @@ impl InflaterInner {
             .iter()
             .enumerate()
             .filter(|&(_, &s)| s != 0)
-            .last()
-            .unwrap_or_else(|| (0, &0))
+            .last().unwrap_or((0, &0))
             .0;
         let hclen = len_count - 3;
 

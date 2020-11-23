@@ -311,8 +311,7 @@ impl BitDecodeService for DeflaterInner {
                         .offset_decoder
                         .as_mut()
                         .unwrap()
-                        .dec(reader, iter)?
-                        .ok_or_else(|| CompressionError::UnexpectedEof)?
+                        .dec(reader, iter)?.ok_or(CompressionError::UnexpectedEof)?
                         as usize;
                     let off_extbits = (&self.offset_tab).ext_bits(off_index);
                     let pos = self.offset_tab.convert_back(

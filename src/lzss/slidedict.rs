@@ -253,7 +253,7 @@ impl<F: Fn(LzssCode, LzssCode) -> Ordering> SlideDict<F> {
                         None
                     }
                 })
-                .or_else(|| Some(new_info));
+                .or(Some(new_info));
 
             if nlen == max_match {
                 pos_count = 0;

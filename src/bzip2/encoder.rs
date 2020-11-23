@@ -56,7 +56,7 @@ impl Default for BZip2Encoder {
 
 impl BZip2Encoder {
     pub fn new(level: usize) -> Self {
-        if level < 1 || level > 9 {
+        if !(1..=9).contains(&level) {
             panic!("invalid level");
         }
 

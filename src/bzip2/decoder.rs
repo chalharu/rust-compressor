@@ -181,7 +181,7 @@ impl BZip2DecoderBase {
                 self.block_size_100k = {
                     let b = Self::read_u8(reader, iter)
                         .map_err(|_| BZip2Error::UnexpectedEof)?;
-                    if b < 1 + HEADER_0 || b > 9 + HEADER_0 {
+                    if !(1 + HEADER_0..=9 + HEADER_0).contains(&b) {
                         return Err(magic_err);
                     }
                     usize::from(b - HEADER_0)
@@ -282,7 +282,7 @@ impl BZip2DecoderBase {
                     .read_bits(3, iter)
                     .map_err(|_| BZip2Error::UnexpectedEof)?
                     .data();
-                if n_groups < 2 || n_groups > 6 {
+                if !(2..=6).contains(&n_groups) {
                     return Err(BZip2Error::DataError);
                 }
                 let n_selectors = reader
@@ -329,7 +329,7 @@ impl BZip2DecoderBase {
                             .data()
                             != 0
                         {
-                            if curr < 1 || curr > 20 {
+                            if !(1..=20).contains(&curr) {
                                 return Err(BZip2Error::DataError);
                             }
                             if reader
@@ -385,7 +385,7 @@ impl BZip2DecoderBase {
                         let next_sym = code[selector[group_no - 1]]
                             .dec(reader, iter)
                             .map_err(|_| BZip2Error::DataError)?
-                            .ok_or_else(|| BZip2Error::DataError)?;
+                            .ok_or(BZip2Error::DataError)?;
 
                         if es > 0
                             && next_sym != Self::RUN_A

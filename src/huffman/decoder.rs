@@ -100,7 +100,7 @@ impl<D: Direction> HuffmanDecoder<D> {
         mut stab_bits: usize,
     ) -> Result<Self, String> {
         let max_len =
-            symb_len.iter().cloned().max().unwrap_or_else(|| 0) as usize;
+            symb_len.iter().cloned().max().unwrap_or(0) as usize;
         stab_bits = cmp::min(max_len, stab_bits);
 
         if max_len < 16 {

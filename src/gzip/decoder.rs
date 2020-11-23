@@ -140,8 +140,7 @@ impl BitDecodeService for GZipDecoderBase {
                             .iter()
                             .enumerate()
                             .skip(10 + xlen)
-                            .skip_while(|x| *x.1 != 0)
-                            .next()
+                            .find(|x| *x.1 != 0)
                         {
                             l.0 - 10 - xlen
                         } else {
@@ -159,8 +158,7 @@ impl BitDecodeService for GZipDecoderBase {
                             .iter()
                             .enumerate()
                             .skip(10 + xlen + fname_len)
-                            .skip_while(|x| *x.1 != 0)
-                            .next()
+                            .find(|x| *x.1 != 0)
                         {
                             l.0 - 10 - xlen - fname_len
                         } else {

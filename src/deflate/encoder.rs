@@ -415,7 +415,8 @@ impl InflaterInner {
             .iter()
             .enumerate()
             .filter(|&(_, &s)| s != 0)
-            .last().unwrap_or((0, &0))
+            .last()
+            .unwrap_or((0, &0))
             .0;
         let hclen = len_count - 3;
 

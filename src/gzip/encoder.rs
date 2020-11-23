@@ -34,9 +34,7 @@ impl<I: Iterator, BI: BorrowMut<I>, F: FnMut(&I::Item)> Iterator
     }
 }
 
-impl<I: Iterator, BI: BorrowMut<I>, F: FnMut(&I::Item)>
-    ScanIterator<I, BI, F>
-{
+impl<I: Iterator, BI: BorrowMut<I>, F: FnMut(&I::Item)> ScanIterator<I, BI, F> {
     pub(crate) fn new(inner: BI, closure: F) -> Self {
         Self {
             inner,
